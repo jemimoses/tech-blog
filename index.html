@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>devnotes — a coding blog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d1117;
+    --bg-card:#161b22;
+    --bg-card-hover:#1c2230;
+    --border:#30363d;
+    --blue:#58a6ff;
+    --green:#3fb950;
+    --orange:#d29922;
+    --text:#e6edf3;
+    --muted:#8b949e;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+  }
+
+  a{color:inherit;text-decoration:none;}
+
+  .wrap{
+    max-width:1100px;
+    margin:0 auto;
+    padding:0 24px;
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    border-bottom:1px solid var(--border);
+    position:sticky;
+    top:0;
+    background:rgba(13,17,23,0.85);
+    backdrop-filter:blur(8px);
+    z-index:10;
+  }
+  nav .wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 24px;
+  }
+  .logo{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:800;
+    font-size:1.1rem;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .logo .dot{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 8px var(--green);
+  }
+  .navlinks{
+    display:flex;
+    gap:28px;
+    font-size:0.9rem;
+    color:var(--muted);
+  }
+  .navlinks a:hover{color:var(--text);}
+  .navlinks{font-family:'JetBrains Mono',monospace;}
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    padding:90px 0 70px;
+    border-bottom:1px solid var(--border);
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    color:var(--green);
+    font-size:0.85rem;
+    margin-bottom:18px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{content:"$";color:var(--muted);}
+  .typed-cursor{
+    display:inline-block;
+    width:8px;height:1.1em;
+    background:var(--green);
+    margin-left:2px;
+    animation:blink 1s step-end infinite;
+    vertical-align:middle;
+  }
+  @keyframes blink{50%{opacity:0;}}
+
+  h1.title{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:800;
+    font-size:clamp(2.1rem,5vw,3.4rem);
+    line-height:1.15;
+    max-width:780px;
+    letter-spacing:-0.02em;
+  }
+  h1.title .accent{color:var(--blue);}
+  .sub{
+    margin-top:22px;
+    color:var(--muted);
+    font-size:1.08rem;
+    max-width:560px;
+  }
+  .hero-actions{
+    margin-top:34px;
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.88rem;
+    padding:11px 20px;
+    border-radius:6px;
+    border:1px solid var(--border);
+    transition:all .15s ease;
+  }
+  .btn-primary{
+    background:var(--blue);
+    color:#0d1117;
+    font-weight:700;
+    border:none;
+  }
+  .btn-primary:hover{background:#79b8ff;}
+  .btn-secondary{color:var(--text);}
+  .btn-secondary:hover{border-color:var(--muted);background:var(--bg-card);}
+
+  /* ---------- SECTION LABEL ---------- */
+  .section-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.85rem;
+    color:var(--muted);
+    margin-bottom:28px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .section-label::before{content:"//";color:var(--green);}
+
+  /* ---------- POSTS ---------- */
+  .posts{padding:80px 0;border-bottom:1px solid var(--border);}
+  .post-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:22px;
+  }
+  .post-card{
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:8px;
+    overflow:hidden;
+    transition:transform .18s ease, border-color .18s ease;
+    display:flex;
+    flex-direction:column;
+  }
+  .post-card:hover{
+    transform:translateY(-4px);
+    border-color:var(--blue);
+  }
+  .file-tab{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 16px;
+    border-bottom:1px solid var(--border);
+    background:#10151c;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.78rem;
+    color:var(--muted);
+  }
+  .file-tab .tag{
+    color:var(--green);
+  }
+  .post-body{padding:20px;flex:1;display:flex;flex-direction:column;}
+  .post-title{
+    font-weight:600;
+    font-size:1.08rem;
+    margin-bottom:10px;
+  }
+  .post-excerpt{
+    color:var(--muted);
+    font-size:0.92rem;
+    flex:1;
+  }
+  .post-meta{
+    margin-top:18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.78rem;
+    color:var(--muted);
+  }
+  .read-link{color:var(--blue);font-weight:500;}
+  .post-card:hover .read-link{text-decoration:underline;}
+
+  /* ---------- NEWSLETTER (signature) ---------- */
+  .newsletter{
+    padding:90px 0;
+  }
+  .nl-box{
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:0;
+    overflow:hidden;
+  }
+  .nl-tab{
+    display:flex;
+    gap:8px;
+    padding:14px 22px;
+    border-bottom:1px solid var(--border);
+    background:#10151c;
+  }
+  .nl-tab span{
+    width:11px;height:11px;border-radius:50%;
+  }
+  .nl-tab .r{background:#ff5f56;}
+  .nl-tab .y{background:#ffbd2e;}
+  .nl-tab .g{background:#27c93f;}
+  .nl-tab .fname{
+    margin-left:auto;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.78rem;
+    color:var(--muted);
+  }
+  .nl-content{
+    padding:44px 50px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:40px;
+    flex-wrap:wrap;
+  }
+  .nl-content h2{
+    font-family:'JetBrains Mono',monospace;
+    font-size:1.5rem;
+    margin-bottom:10px;
+  }
+  .nl-content h2 .accent{color:var(--green);}
+  .nl-content p{color:var(--muted);font-size:0.95rem;max-width:420px;}
+  form.signup{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  input[type="email"]{
+    background:#0d1117;
+    border:1px solid var(--border);
+    color:var(--text);
+    padding:12px 14px;
+    border-radius:6px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.88rem;
+    min-width:240px;
+  }
+  input[type="email"]:focus{outline:2px solid var(--blue);outline-offset:2px;}
+  input[type="email"]::placeholder{color:var(--muted);}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    border-top:1px solid var(--border);
+    padding:34px 0;
+  }
+  footer .wrap{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:14px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.82rem;
+    color:var(--muted);
+  }
+  .foot-links{display:flex;gap:20px;}
+  .foot-links a:hover{color:var(--text);}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:880px){
+    .post-grid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (max-width:640px){
+    .post-grid{grid-template-columns:1fr;}
+    .navlinks{display:none;}
+    .nl-content{padding:32px 24px;flex-direction:column;align-items:flex-start;}
+    form.signup{width:100%;}
+    input[type="email"]{flex:1;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .typed-cursor{animation:none;}
+    .post-card{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo"><span class="dot"></span>devnotes</div>
+    <div class="navlinks">
+      <a href="#posts">posts</a>
+      <a href="#newsletter">subscribe</a>
+      <a href="#">about</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">cat latest_posts.log<span class="typed-cursor"></span></div>
+    <h1 class="title">Notes from the <span class="accent">terminal</span>,<br>written for humans.</h1>
+    <p class="sub">Practical write-ups on data structures, debugging war stories, and the small decisions that make code easier to read six months from now.</p>
+    <div class="hero-actions">
+      <a href="#posts" class="btn btn-primary">Read latest posts</a>
+      <a href="#newsletter" class="btn btn-secondary">Subscribe →</a>
+    </div>
+  </div>
+</header>
+
+<section class="posts" id="posts">
+  <div class="wrap">
+    <div class="section-label">recent_posts</div>
+    <div class="post-grid">
+
+      <article class="post-card">
+        <div class="file-tab">📄 <span class="tag">arrays.md</span></div>
+        <div class="post-body">
+          <div class="post-title">Two Pointers, One Headache: A Field Guide</div>
+          <p class="post-excerpt">Why the two-pointer technique trips people up in interviews, and a mental model that finally made it click for me.</p>
+          <div class="post-meta">
+            <span>5 min read</span>
+            <a href="#" class="read-link">read →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="post-card">
+        <div class="file-tab">📄 <span class="tag">sql-joins.md</span></div>
+        <div class="post-body">
+          <div class="post-title">The JOIN I Got Wrong for a Year</div>
+          <p class="post-excerpt">A column-mismatch bug that taught me more about SQL semantics than any tutorial did.</p>
+          <div class="post-meta">
+            <span>4 min read</span>
+            <a href="#" class="read-link">read →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="post-card">
+        <div class="file-tab">📄 <span class="tag">leetcode.md</span></div>
+        <div class="post-body">
+          <div class="post-title">Solving It Twice: Working vs. Clean</div>
+          <p class="post-excerpt">My two-pass approach to LeetCode — get it accepted first, then rewrite it like someone else has to read it.</p>
+          <div class="post-meta">
+            <span>6 min read</span>
+            <a href="#" class="read-link">read →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="post-card">
+        <div class="file-tab">📄 <span class="tag">git-basics.md</span></div>
+        <div class="post-body">
+          <div class="post-title">Git Commands I Actually Use Weekly</div>
+          <p class="post-excerpt">Skip the 40-command cheat sheet — here's the handful that cover 95% of real work.</p>
+          <div class="post-meta">
+            <span>3 min read</span>
+            <a href="#" class="read-link">read →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="post-card">
+        <div class="file-tab">📄 <span class="tag">interviews.md</span></div>
+        <div class="post-body">
+          <div class="post-title">STAR Answers That Don't Sound Rehearsed</div>
+          <p class="post-excerpt">How to keep behavioral interview answers structured without sounding like you memorized a script.</p>
+          <div class="post-meta">
+            <span>5 min read</span>
+            <a href="#" class="read-link">read →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="post-card">
+        <div class="file-tab">📄 <span class="tag">jdbc-setup.md</span></div>
+        <div class="post-body">
+          <div class="post-title">Connecting Java to MySQL Without the Pain</div>
+          <p class="post-excerpt">A short checklist for JDBC connection errors, written after debugging way too many of them.</p>
+          <div class="post-meta">
+            <span>4 min read</span>
+            <a href="#" class="read-link">read →</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section class="newsletter" id="newsletter">
+  <div class="wrap">
+    <div class="nl-box">
+      <div class="nl-tab">
+        <span class="r"></span><span class="y"></span><span class="g"></span>
+        <span class="fname">subscribe.sh</span>
+      </div>
+      <div class="nl-content">
+        <div>
+          <h2>git pull <span class="accent">origin</span> new-posts</h2>
+          <p>One email a week. No fluff, no recycled listicles — just the post, straight to your inbox.</p>
+        </div>
+        <form class="signup">
+          <input type="email" placeholder="you@email.com" required>
+          <button type="submit" class="btn btn-primary">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 devnotes — built with HTML &amp; CSS</div>
+    <div class="foot-links">
+      <a href="#">GitHub</a>
+      <a href="#">RSS</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
